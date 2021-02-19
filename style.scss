@@ -1,0 +1,133 @@
+
+$font-stack: fantasy, Helvetica, sans-serif;
+$main-color: lightblue;
+$border: 3px solid grey;
+$text-color: #333;
+
+$font-weight: (
+    "small": 300,
+    "medium": 500,
+    "large": 700,
+);
+
+@function weight($name){
+    @return map-get($map: $font-weight, $key: medium)
+}
+
+@mixin flexCenter($direction, $justify) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: center;
+}
+
+@mixin darkTheme($dark-theme: true) {
+    @if $dark-theme{
+        color: lighten($color: $text-color, $amount: 100%);
+        background-color: darken($color: $main-color, $amount: 100%);
+    }
+}
+
+@mixin themeAble($theme-name, $container-background, $left-bg, $right-bg, $innertext, $button-bg){
+    .#{$theme-name}{
+        div{
+            background-color: $container-background;
+            border: $border;
+            @include flexCenter(row, space-between);
+            align-items: unset;
+            margin: 0 auto;
+            padding: 1rem;
+            width: 90%;
+            *{
+                color: $innertext;
+                font-size: 2rem;
+            }
+            .left{
+                background-color: $left-bg;
+                height: 100%;
+                width: 70%;
+                button{
+                    background-color: $button-bg;
+                    border: 0;
+                    border-radius: 10px;
+                    bottom: 10px;
+                    cursor: pointer;
+                    font-size: weight("large");
+                    padding: 1rem 2rem;
+                    right: 10px;
+                }
+            }
+            .right{
+                @extend .left;
+                background-color: $right-bg;
+                width: 25%;
+                position: relative;
+            }
+        }
+    }
+}
+
+@include themeAble(theme-1, yellow, rgb(89, 197, 89), #fff, brown);
+@include themeAble(theme-2, rgb(109, 109, 32), rgb(89, 197, 89), rgb(255, 160, 160), rgb(17, 6, 6));
+
+*, *::after, *::before{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    transition: all .5s;
+}
+
+body{
+    font: weight('large');
+    //display: flex;
+    //flex-direction: row;
+    //justify-content: center;
+    //align-items: center;
+    @include flexCenter(row, center);
+    gap: 5px;
+    font-family: $font-stack;
+    div{
+        @import url(partials/_nav.scss);
+    }
+    section{
+        *{
+            background-color: $main-color
+        }
+        @import url(partials/_list.scss);
+        border: $border;
+        background-color: $main-color;
+        width: 300px;
+        height: 400px;
+        padding: {
+            top: 5px;
+            left: 10px;
+            right: 10px;
+            bottom: 5px;
+        };
+        //display: flex;
+        //justify-content: space-between;
+        //flex-direction: column;
+        @include flexCenter(column, space-between);
+        border-radius: 10px;
+        button{
+            background-color: $main-color;
+            border: $border;
+            border-radius: 10px;
+            margin: 5px;
+            outline: none;
+            &:active{
+                background-color: darkcyan;
+                border: 2px solid red;
+            }
+            &#testing{
+                align-self: flex-end;
+                padding: 10px;
+            }
+        }
+        #submit{
+            align-self: flex-start;
+            padding: 10px;
+        }
+    }
+    
+}
